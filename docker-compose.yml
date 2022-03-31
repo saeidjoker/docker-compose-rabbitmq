@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_log:/var/log/rabbitmq
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - rabbitmq_network
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+
+volumes:
+    rabbitmq_data:
+    rabbitmq_log:
+
+# we created a bridge network called rabbitmq_network that we are going to use 
+# later when we publish and consume messages in other docker containers
+networks:
+  rabbitmq_network:
+    driver: bridge
